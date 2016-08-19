@@ -45,5 +45,13 @@ class SearchingTests(unittest.TestCase):
         
         self.assertIsNone(pattern.match("  <HTML>", 2))
         
+    def test_search_(self):
+        pattern = re.compile(r'world')
+        
+        self.assertIsNotNone(pattern.match("Hello world"))
+        
+        self.assertIsNone(pattern.match("hola mundo"))
+
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

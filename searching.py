@@ -52,6 +52,17 @@ class SearchingTests(unittest.TestCase):
         
         self.assertIsNone(pattern.search("hola mundo"))
 
+    def test_search_multiline(self):
+        pattern = re.compile(r'^<HTML>', re.MULTILINE)
+
+        self.assertIsNotNone(pattern.search("<HTML>"))
+        self.assertIsNone(pattern.search(" <HTML>"))
+        self.assertIsNotNone(pattern.search("  \n<HTML>"))
+
+        # with pos
+        self.assertIsNotNone(pattern.search("  \n<HTML>", 3))
+        self.assertIsNotNone(pattern.search("</DIV></BODY>\n<HTML>", 4))
+        self.assertIsNone(pattern.search("\n<HTML>", 4))
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

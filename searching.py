@@ -64,5 +64,11 @@ class SearchingTests(unittest.TestCase):
         self.assertIsNotNone(pattern.search("</DIV></BODY>\n<HTML>", 4))
         self.assertIsNone(pattern.search("\n<HTML>", 4))
 
+    def test_findall(self):
+        pattern = re.compile(r"\w+")
+        
+        self.assertEqual(["hello", "world"], pattern.findall("hello world"))
+    
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

@@ -76,6 +76,28 @@ class SearchingTests(unittest.TestCase):
         pattern = re.compile(r"a?")
         self.assertEqual(["a","","a",""], pattern.findall("aba"))
     
+    def test_findall_groups(self):
+        pattern = re.compile(r"(\w+) (\w+)")
+
+        self.assertEqual([('Hello', 'world'), ('hola', 'mundo')],
+                    pattern.findall("Hello world hola mundo"))
+    
+
+    def test_finditer(self):
+        pattern = re.compile(r"(\w+) (\w+)")
+        it = pattern.finditer("Hello world hola mundo")
+
+        match = it.next()
+        self.assertEqual(('Hello', 'world'), match.groups())
+        self.assertEqual((0, 11), match.span())
+
+        match = it.next()
+        self.assertEqual(('hola', 'mundo'), match.groups())
+        self.assertEqual((12, 22), match.span())
+
+        with self.assertRaises(StopIteration):
+            match = it.next()
+
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

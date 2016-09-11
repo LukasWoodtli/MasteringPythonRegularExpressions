@@ -68,6 +68,13 @@ class SearchingTests(unittest.TestCase):
         pattern = re.compile(r"\w+")
         
         self.assertEqual(["hello", "world"], pattern.findall("hello world"))
+        
+        
+        pattern = re.compile(r"a*")
+        self.assertEqual(["a","","a",""]pattern.findall("aba"))
+        
+        pattern = re.compile(r"a?")
+        self.assertEqual(["a","","a",""]pattern.findall("aba"))
     
 
 if __name__ == '__main__':

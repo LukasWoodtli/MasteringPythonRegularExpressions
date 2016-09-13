@@ -4,5 +4,5 @@ python:
   
 
 script: 
- - python -m unittest discover . -p *.py
+ - python -m unittest discover examples -p *.py
 

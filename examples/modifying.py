@@ -15,5 +15,21 @@ class ModifyingTests(unittest.TestCase):
 
         self.assertEqual([' '], pattern.findall("Hello world"))
 
+    def test_split_regex_maxsplit(self):
+        pattern = re.compile(r"\W")
+
+        result = pattern.split('Beautiful is better than ugly', 2)
+        self.assertEqual(['Beautiful', 'is', 'better than ugly'], result)
+
+    def test_split_regex_groups(self):
+        pattern = re.compile(r"(-)")
+        self.assertEqual(['hello', '-', 'world'], pattern.split("hello-world"))
+
+    def test_split_regex_match_beginning(self):
+        pattern = re.compile(r"(\W)")
+        result = pattern.split(" hello world")
+        self.assertEqual(['', ' ', 'hello', ' ', 'world'], result)
+
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

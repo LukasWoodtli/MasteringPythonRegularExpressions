@@ -30,6 +30,15 @@ class ModifyingTests(unittest.TestCase):
         result = pattern.split(" hello world")
         self.assertEqual(['', ' ', 'hello', ' ', 'world'], result)
 
+    def test_sub(self):
+        pattern = re.compile(r"[0-9]+")
+
+        self.assertEqual('order- order- order-',
+                         pattern.sub('-', 'order0 order1 order13'))
+
+    def test_sub_leftmost(self):
+        self.assertEqual('order--0', re.sub('00', '-', 'order--0'))
+
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

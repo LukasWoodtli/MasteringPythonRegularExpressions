@@ -39,6 +39,15 @@ class ModifyingTests(unittest.TestCase):
     def test_sub_leftmost(self):
         self.assertEqual('order--0', re.sub('00', '-', 'order--0'))
 
+    def test_sub_with_match_obj(self):
+        def normalize_orders(matchobj):
+            if matchobj.group(1) == '-':
+                return "A"
+            else:
+                return "B"
+        self.assertEqual('A1234 B193 B123',
+                         re.sub('([-|A-Z])', normalize_orders, '-1234 A193 B123'))
+
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

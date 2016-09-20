@@ -48,6 +48,11 @@ class ModifyingTests(unittest.TestCase):
         self.assertEqual('A1234 B193 B123',
                          re.sub('([-|A-Z])', normalize_orders, '-1234 A193 B123'))
 
+    def test_sub_with_back_ref(self):
+        text = "imagine a new *world*, a magic *world*"
+        pattern = re.compile(r'\*(.*?)\*')
+        self.assertEqual("imagine a new <b>world<\\b>, a magic <b>world<\\b>",
+                         pattern.sub(r"<b>\g<1><\\b>", text))
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

@@ -70,6 +70,12 @@ class MatchObjectTests(unittest.TestCase):
 
         self.assertEqual((0, 5), match.span(1))
 
+
+    def test_expand(self):
+        text = "imagine a new *world*, a magic *world*"
+        match = re.search(r"\*(.*?)\*", text)
+        self.assertEqual('<b>world<\\b>', match.expand(r"<b>\g<1><\\b>"))
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover
 

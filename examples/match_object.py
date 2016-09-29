@@ -35,6 +35,19 @@ class MatchObjectTests(unittest.TestCase):
 
         self.assertEqual(("Hello world", "Hello", "world"), match.group(0, 'first', 2))
 
+    def test_groups(self):
+        pattern = re.compile(r"(\w+) (\w+)")
+        match = pattern.search("Hello world")
+
+        self.assertEqual(("Hello", "world"), match.groups())
+
+    def test_groups_not_matching(self):
+        pattern = re.compile(r"(\w+) (\w+)?")
+        match = pattern.search("Hello ")
+
+        self.assertEqual(("Hello", "mundo"), match.groups("mundo"))
+        self.assertEqual(("Hello", None), match.groups())
+
     def test_groupdict(self):
         pattern = re.compile(r"(?P<first>\w+) (?P<second>\w+)")
         result = pattern.search("Hello world")

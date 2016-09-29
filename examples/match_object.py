@@ -35,6 +35,27 @@ class MatchObjectTests(unittest.TestCase):
 
         self.assertEqual(("Hello world", "Hello", "world"), match.group(0, 'first', 2))
 
+    def test_groupdict(self):
+        pattern = re.compile(r"(?P<first>\w+) (?P<second>\w+)")
+        result = pattern.search("Hello world")
+        self.assertEqual({'first' : 'Hello', 'second' : 'world'},
+                         result.groupdict())
+
+    def test_start_end(self):
+        pattern = re.compile(r"(?P<first>\w+) (?P<second>\w+)")
+        result = pattern.search("Hello world")
+        self.assertEqual({'first' : 'Hello', 'second' : 'world'},
+                         result.groupdict())
+
+    def test_start_end_span(self):
+        pattern = re.compile(r"(?P<first>\w+) (?P<second>\w+)?")
+        match = pattern.search("Hello ")
+        self.assertEqual(0, match.start(1))
+        self.assertEqual(-1, match.start(2))
+
+        self.assertEqual(5, match.end(1))
+
+        self.assertEqual((0, 5), match.span(1))
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

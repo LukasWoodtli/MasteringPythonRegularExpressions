@@ -42,8 +42,18 @@ class CompilationFlagsTests(unittest.TestCase):
     def test_unicode(self):
         self.assertEqual(['this', 'is', 'an', 'example'], re.findall("\w+", "this is an example"))
 
-        self.assertEqual(re.findall(ur"\w+", u"这是一个例子", re.UNICODE), [u'\u8fd9\u662f\u4e00\u4e2a\u4f8b\u5b50'])
-        self.assertEqual(re.findall(ur"\w+", u"هذا مثال", re.UNICODE), [u'\u0647\u0630\u0627', u'\u0645\u062b\u0627\u0644'])
+        self.assertEqual([u'\u8fd9\u662f\u4e00\u4e2a\u4f8b\u5b50'], re.findall(ur"\w+", u"这是一个例子", re.UNICODE))
+        self.assertEqual([u'\u0647\u0630\u0627', u'\u0645\u062b\u0627\u0644'], re.findall(ur"\w+", u"هذا مثال", re.UNICODE))
+
+
+    def test_verbose(self):
+        pattern = re.compile(r"""[#|_]+
+                              # comment
+                              \\# #comment
+                              \d+""", re.X)
+                              
+        self.assertEqual(['# #2'], pattern.findall("# #2"))
+        
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

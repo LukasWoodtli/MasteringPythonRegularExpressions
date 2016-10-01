@@ -49,7 +49,7 @@ class CompilationFlagsTests(unittest.TestCase):
     def test_verbose(self):
         pattern = re.compile(r"""[#|_]+
                               # comment
-                              \\# #comment
+                              \ \# #comment
                               \d+""", re.X)
                               
         self.assertEqual(['# #2'], pattern.findall("# #2"))

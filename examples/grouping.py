@@ -47,5 +47,17 @@ class GroupingTests(unittest.TestCase):
         self.assertEqual('34', match.group(1))
 
 
+    def test_backreferences_1(self):
+        pattern = re.compile(r"(\w+) \1")
+        match = pattern.search(r"hello hello world")
+        self.assertEqual(('hello',), match.groups())
+
+    def test_backreferences_2(self):
+        pattern = re.compile(r"(\d+)-(\w+)")
+        self.assertEqual("a-1\nbear-20\nafcr-34",
+                         pattern.sub(r"\2-\1", "1-a\n20-bear\n34-afcr"))
+
+
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

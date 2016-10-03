@@ -57,7 +57,11 @@ class GroupingTests(unittest.TestCase):
         self.assertEqual("a-1\nbear-20\nafcr-34",
                          pattern.sub(r"\2-\1", "1-a\n20-bear\n34-afcr"))
 
-
+    def test_named_groups(self):
+        pattern = re.compile(r"(?P<first>\w+) (?P<second>\w+)")
+        match = pattern.search("Hello world")
+        self.assertEqual("Hello", match.group("first"))
+        self.assertEqual("world", match.group("second"))
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

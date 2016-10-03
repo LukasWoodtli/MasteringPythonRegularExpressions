@@ -33,6 +33,19 @@ class GroupingTests(unittest.TestCase):
         self.assertIsNone(re.search(r"Espan(a|ol)", "Espano"))
         self.assertIsNone(re.search(r"Espan(a|ol)", "ol"))
 
+    def test_capturing(self):
+        pattern = re.compile(r"(\d+)-\w+")
+        it = pattern.finditer(r"1-a\n20-baer\n34-afcr")
+
+        match = it.next()
+        self.assertEqual('1', match.group(1))
+
+        match = it.next()
+        self.assertEqual('20', match.group(1))
+
+        match = it.next()
+        self.assertEqual('34', match.group(1))
+
 
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

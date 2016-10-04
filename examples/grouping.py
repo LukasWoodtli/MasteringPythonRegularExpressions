@@ -63,5 +63,17 @@ class GroupingTests(unittest.TestCase):
         self.assertEqual("Hello", match.group("first"))
         self.assertEqual("world", match.group("second"))
 
+    def test_named_backreference(self):
+        pattern = re.compile(r"(?P<country>\d+)-(?P<id>\w+)")
+        result = pattern.sub(r"\g<id>-\g<country>", "1-a\n20-baer\n34-afcr")
+        self.assertEqual("a-1\nbaer-20\nafcr-34", result)
+
+    def test_named_group_in_pattern(self):
+        pattern = re.compile(r"(?P<word>\w+) (?P=word)")
+        match = pattern.search(r"hello hello world")
+        self.assertEqual(('hello',), match.groups())
+
+
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

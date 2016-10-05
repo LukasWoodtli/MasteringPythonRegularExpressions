@@ -73,7 +73,14 @@ class GroupingTests(unittest.TestCase):
         match = pattern.search(r"hello hello world")
         self.assertEqual(('hello',), match.groups())
 
+    def test_non_capturing_groups(self):
+        # capturing
+        self.assertIsNotNone(re.search("Espan(a|ol)", "Espanol"))
+        self.assertEqual(('ol',), re.search("Espan(a|ol)", "Espanol").groups())
 
-
+        # non-capturing
+        self.assertIsNotNone(re.search("Espan(?:a|ol)", "Espanol"))
+        self.assertEqual((), re.search("Espan(?:a|ol)", "Espanol").groups())
+        
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

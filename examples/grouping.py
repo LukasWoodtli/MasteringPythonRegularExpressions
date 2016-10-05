@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import unittest
 
 import re
@@ -81,6 +83,11 @@ class GroupingTests(unittest.TestCase):
         # non-capturing
         self.assertIsNotNone(re.search("Espan(?:a|ol)", "Espanol"))
         self.assertEqual((), re.search("Espan(?:a|ol)", "Espanol").groups())
+        
+    def test_flags_for_groups(self):
+        self.assertEqual([u'\xf1'], re.findall(r"(?u)\w+", ur"ñ"))
+
+#    def test_yes_pattern_no_pattern(self):
         
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

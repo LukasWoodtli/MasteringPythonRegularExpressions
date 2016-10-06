@@ -83,11 +83,21 @@ class GroupingTests(unittest.TestCase):
         # non-capturing
         self.assertIsNotNone(re.search("Espan(?:a|ol)", "Espanol"))
         self.assertEqual((), re.search("Espan(?:a|ol)", "Espanol").groups())
-        
+
     def test_flags_for_groups(self):
         self.assertEqual([u'\xf1'], re.findall(r"(?u)\w+", ur"ñ"))
 
-#    def test_yes_pattern_no_pattern(self):
-        
+    def test_yes_pattern_no_pattern(self):
+        pattern = re.compile(r"(\d\d-)?(\w{3,4})(?(1)(-\d\d))")
+        self.assertIsNotNone(pattern.match("34-erte-22"))
+        self.assertIsNotNone(pattern.match("erte"))
+        self.assertIsNone(pattern.match("34-erte"))
+
+        # with no-pattern
+        pattern = re.compile(r"(\d\d-)?(\w{3,4})-(?(1)(\d\d)|[a-z]{3,4})$")
+        self.assertIsNotNone(pattern.match("34-erte-22"))
+        self.assertIsNone(pattern.match("34-erte"))
+        self.assertIsNotNone(pattern.match("erte-abcd"))
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

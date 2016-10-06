@@ -99,5 +99,10 @@ class GroupingTests(unittest.TestCase):
         self.assertIsNone(pattern.match("34-erte"))
         self.assertIsNotNone(pattern.match("erte-abcd"))
 
+    def test_overlapping_groups(self):
+        self.assertEqual(['a','a'], re.findall(r'(a|b)+', 'abaca'))
+        self.assertEqual(['abba','a'], re.findall(r'(?:a|b)+', 'abbaca'))
+
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover

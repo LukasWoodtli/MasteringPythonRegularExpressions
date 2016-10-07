@@ -67,5 +67,51 @@ class LookAroundTests(unittest.TestCase):
 
         self.assertEqual('1,234,567,890', pattern.sub(r'\g<0>,', "1234567890"))
 
+    def test_look_behind(self):
+        pattern = re.compile(r'(?<=John\s)McLane')
+        result = pattern.finditer("I would rather go out with John McLane than with John Smith or John Bon Jovi")
+
+        i = result.next()
+        self.assertEqual(32, i.start())
+        self.assertEqual(38, i.end())
+
+    def test_match_twitter_name(self):
+        text = "Know your Big Data = 5 for $50 on eBooks and 40% off all eBooks until Friday #bigdata #hadoop @HadoopNews packtpub.com/bigdataoffers"
+
+        pattern = re.compile(r'\B@[\w_]+')
+        result = pattern.findall(text)
+        self.assertEqual(['@HadoopNews'], result)
+
+        pattern = re.compile(r'(?<=\B@)[\w_]+')
+        result = pattern.findall(text)
+        self.assertEqual(['HadoopNews'], result)
+
+    def test_negative_look_behind(self):
+        pattern = re.compile(r'(?<!John\s)Doe')
+        result = pattern.finditer("John Doe, Calvin Doe, Hobbes Doe")
+
+        iter = result.next()
+        self.assertEqual(17, iter.start())
+        self.assertEqual(20, iter.end())
+
+        iter = result.next()
+        self.assertEqual(29, iter.start())
+        self.assertEqual(32, iter.end())
+
+        # no more entries
+        with self.assertRaises(StopIteration):
+            iter = result.next()
+
+    def test_look_around_and_groups(self):
+        pattern = re.compile(r'\w+\s[\d-]+\s[\d:,]+\s(.*(?<!authentication\s)failed)')
+
+        self.assertEqual([], pattern.findall("INFO 2013-09-17 12:13:44,487 authentication failed"))
+
+        self.assertEqual(['something else failed'],
+                         pattern.findall("INFO 2013-09-17 12:13:44,487 something else failed"))
+
+# this is not possible (look-behind can match only fixed-width patterns)
+# pattern = re.compile(r'?<=(John|Jonathan)\s)McLane')        
+
 if __name__ == '__main__':
     unittest.main()   # pragma: no cover
